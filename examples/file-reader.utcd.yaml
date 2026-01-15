@@ -1,0 +1,35 @@
+# Safe File Reader Tool - UTCD Descriptor
+# Example: A safe tool with minimal side effects
+
+utcd_version: "1.0"
+
+identity:
+  name: "Safe File Reader"
+  purpose: "Read file contents from local filesystem (read-only)"
+
+capability:
+  domain: "file-management"
+  inputs:
+    - "file_path"
+    - "encoding"
+  outputs:
+    - "content"
+    - "size_bytes"
+    - "last_modified"
+
+constraints:
+  side_effects:
+    - "io:filesystem-read"
+  data_retention: "none"  # No data stored
+
+connection:
+  modes:
+    - type: "cli"
+      detail: "file-reader --path <file_path>"
+    - type: "mcp"
+      detail: "file-reader-mcp"
+
+# Minimal profiles - demonstrates graceful degradation
+security:
+  publisher: "did:web:tools.example.com"
+  fingerprint: "sha256:safe123..."

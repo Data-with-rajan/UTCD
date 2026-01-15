@@ -1,0 +1,111 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://utcd.dev/schema/profiles/privacy.schema.json",
+    "title": "UTCD Privacy Profile",
+    "description": "Optional privacy and compliance profile for UTCD",
+    "type": "object",
+    "properties": {
+        "privacy": {
+            "type": "object",
+            "description": "Privacy and data handling information",
+            "properties": {
+                "data_location": {
+                    "type": "array",
+                    "description": "Geographic locations where data may be processed/stored",
+                    "items": {
+                        "type": "string"
+                    },
+                    "examples": [
+                        [
+                            "EU"
+                        ],
+                        [
+                            "US",
+                            "EU"
+                        ],
+                        [
+                            "global"
+                        ]
+                    ]
+                },
+                "encryption": {
+                    "type": "array",
+                    "description": "Encryption capabilities",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "in-transit",
+                            "at-rest",
+                            "end-to-end",
+                            "none"
+                        ]
+                    }
+                },
+                "pii_handling": {
+                    "type": "string",
+                    "description": "How personally identifiable information is handled",
+                    "enum": [
+                        "none",
+                        "anonymized",
+                        "pseudonymized",
+                        "stored"
+                    ]
+                },
+                "data_deletion": {
+                    "type": "string",
+                    "description": "Data deletion policy",
+                    "enum": [
+                        "immediate",
+                        "on-request",
+                        "scheduled",
+                        "never"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        },
+        "compliance": {
+            "type": "object",
+            "description": "Compliance and certification information",
+            "properties": {
+                "standards": {
+                    "type": "array",
+                    "description": "Compliance standards met",
+                    "items": {
+                        "type": "string"
+                    },
+                    "examples": [
+                        [
+                            "GDPR",
+                            "SOC2-Type2",
+                            "HIPAA",
+                            "ISO27001"
+                        ]
+                    ]
+                },
+                "certifications": {
+                    "type": "array",
+                    "description": "Active certifications",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "expires": {
+                                "type": "string",
+                                "format": "date"
+                            },
+                            "url": {
+                                "type": "string",
+                                "format": "uri"
+                            }
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": true
+}

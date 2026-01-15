@@ -1,0 +1,69 @@
+# Email Sender Tool - UTCD Descriptor
+# Example: A tool with network access and persistent storage (less safe)
+
+utcd_version: "1.0"
+
+identity:
+  name: "SendGrid Email API"
+  purpose: "Send transactional and marketing emails via REST API"
+
+capability:
+  domain: "communication"
+  inputs:
+    - "recipient_email"
+    - "subject"
+    - "body_html"
+    - "body_text"
+    - "attachments"
+  outputs:
+    - "message_id"
+    - "status"
+    - "timestamp"
+
+constraints:
+  side_effects:
+    - "net:http-outbound"
+    - "io:email-send"
+  data_retention: "persistent"  # Stores email logs
+
+connection:
+  modes:
+    - type: "http"
+      detail: "https://api.sendgrid.com/v3/mail/send"
+    - type: "mcp"
+      detail: "sendgrid-mcp-server"
+
+# Optional profiles
+security:
+  publisher: "did:web:sendgrid.com"
+  fingerprint: "sha256:a1b2c3d4e5f6..."
+
+privacy:
+  data_location:
+    - "US"
+  encryption:
+    - "in-transit"
+  pii_handling: "stored"
+  data_deletion: "on-request"
+
+compliance:
+  standards:
+    - "SOC2-Type2"
+    - "ISO27001"
+
+cost:
+  model: "pay-per-call"
+  currency: "USD"
+  estimates:
+    - input: "1 email"
+      cost: "0.0001 USD"
+      latency_p50: "200ms"
+      latency_p99: "500ms"
+    - input: "1000 emails"
+      cost: "0.10 USD"
+      latency_p50: "5s"
+
+performance:
+  availability: "99.95%"
+  rate_limit: "100/second"
+  max_payload: "30MB"

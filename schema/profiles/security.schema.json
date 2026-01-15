@@ -1,0 +1,74 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://utcd.dev/schema/profiles/security.schema.json",
+    "title": "UTCD Security Profile",
+    "description": "Optional security and provenance profile for UTCD",
+    "type": "object",
+    "properties": {
+        "security": {
+            "type": "object",
+            "description": "Security and trust information",
+            "properties": {
+                "fingerprint": {
+                    "type": "string",
+                    "description": "Content hash for integrity verification",
+                    "pattern": "^(sha256|sha512):[a-fA-F0-9]+$",
+                    "examples": [
+                        "sha256:abc123def456..."
+                    ]
+                },
+                "publisher": {
+                    "type": "string",
+                    "description": "Decentralized identifier of the publisher",
+                    "examples": [
+                        "did:web:example.com",
+                        "did:key:z6Mk..."
+                    ]
+                },
+                "signatures": {
+                    "type": "array",
+                    "description": "Cryptographic signatures for verification",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "alg",
+                            "sig"
+                        ],
+                        "properties": {
+                            "alg": {
+                                "type": "string",
+                                "description": "Signature algorithm",
+                                "examples": [
+                                    "ed25519",
+                                    "ecdsa-p256",
+                                    "rsa-pss"
+                                ]
+                            },
+                            "key_id": {
+                                "type": "string",
+                                "description": "Key identifier for signature verification"
+                            },
+                            "sig": {
+                                "type": "string",
+                                "description": "Base64-encoded signature value"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "audit_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to security audit report"
+                },
+                "vulnerability_disclosure": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL for vulnerability reporting"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": true
+}

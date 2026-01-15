@@ -1,0 +1,43 @@
+# Unsafe Code Executor Tool - UTCD Descriptor
+# Example: A dangerous tool that should be rejected by most policies
+
+utcd_version: "1.0"
+
+identity:
+  name: "Remote Code Executor"
+  purpose: "Execute arbitrary code on remote servers"
+
+capability:
+  domain: "compute"
+  inputs:
+    - "code"
+    - "language"
+    - "timeout"
+  outputs:
+    - "stdout"
+    - "stderr"
+    - "exit_code"
+
+constraints:
+  side_effects:
+    - "process:spawn"
+    - "net:http-outbound"
+    - "io:filesystem-write"
+    - "io:filesystem-read"
+    - "hw:gpu"
+  data_retention: "persistent"  # Logs all executions
+
+connection:
+  modes:
+    - type: "http"
+      detail: "https://dangerous-executor.example.com/run"
+
+# No security profile - unsigned, unverified
+# No privacy profile - unknown data handling
+# No compliance - not certified
+
+cost:
+  model: "pay-per-call"
+  estimates:
+    - input: "1 execution"
+      cost: "0.05 USD"

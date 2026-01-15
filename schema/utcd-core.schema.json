@@ -1,0 +1,121 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://utcd.dev/schema/utcd-core.schema.json",
+  "title": "UTCD Core Schema",
+  "description": "Universal Tool Capability Descriptor - Core Schema v1.0",
+  "type": "object",
+  "required": ["utcd_version", "identity", "capability", "constraints", "connection"],
+  "properties": {
+    "utcd_version": {
+      "type": "string",
+      "description": "UTCD specification version",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "examples": ["1.0"]
+    },
+    "identity": {
+      "type": "object",
+      "description": "Tool identity information",
+      "required": ["name", "purpose"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable tool name",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Brief description of what the tool does",
+          "minLength": 1,
+          "maxLength": 500
+        }
+      },
+      "additionalProperties": false
+    },
+    "capability": {
+      "type": "object",
+      "description": "Tool capability description",
+      "required": ["domain", "inputs", "outputs"],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "Primary domain of the tool",
+          "examples": ["communication", "data-processing", "file-management", "web", "analytics"]
+        },
+        "inputs": {
+          "type": "array",
+          "description": "List of input types the tool accepts",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "outputs": {
+          "type": "array",
+          "description": "List of output types the tool produces",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Tool constraints and limitations",
+      "required": ["side_effects", "data_retention"],
+      "properties": {
+        "side_effects": {
+          "type": "array",
+          "description": "List of side effects the tool may cause",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "examples": [
+            ["none"],
+            ["io:filesystem-read"],
+            ["io:filesystem-write", "net:http-outbound"]
+          ]
+        },
+        "data_retention": {
+          "type": "string",
+          "description": "Data retention policy",
+          "enum": ["none", "session", "persistent"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "connection": {
+      "type": "object",
+      "description": "How to connect to the tool",
+      "required": ["modes"],
+      "properties": {
+        "modes": {
+          "type": "array",
+          "description": "Available connection modes",
+          "items": {
+            "type": "object",
+            "required": ["type", "detail"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Connection type",
+                "examples": ["cli", "http", "mcp", "grpc", "websocket", "other"]
+              },
+              "detail": {
+                "type": "string",
+                "description": "Connection details (URL, command, etc.)"
+              }
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true
+}

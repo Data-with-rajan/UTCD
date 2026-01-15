@@ -1,0 +1,128 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://utcd.dev/schema/profiles/cost.schema.json",
+    "title": "UTCD Cost Profile",
+    "description": "Optional cost and performance profile for UTCD",
+    "type": "object",
+    "properties": {
+        "cost": {
+            "type": "object",
+            "description": "Pricing and cost information",
+            "properties": {
+                "model": {
+                    "type": "string",
+                    "description": "Pricing model",
+                    "enum": [
+                        "free",
+                        "pay-per-call",
+                        "subscription",
+                        "usage-based",
+                        "enterprise"
+                    ]
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Currency for cost values",
+                    "default": "USD",
+                    "examples": [
+                        "USD",
+                        "EUR",
+                        "INR"
+                    ]
+                },
+                "estimates": {
+                    "type": "array",
+                    "description": "Cost estimates for different usage patterns",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "input": {
+                                "type": "string",
+                                "description": "Input size or description",
+                                "examples": [
+                                    "1KB",
+                                    "1MB",
+                                    "1000 requests"
+                                ]
+                            },
+                            "cost": {
+                                "type": "string",
+                                "description": "Estimated cost",
+                                "examples": [
+                                    "0.001 USD",
+                                    "0.10 USD"
+                                ]
+                            },
+                            "latency_p50": {
+                                "type": "string",
+                                "description": "Median latency",
+                                "examples": [
+                                    "50ms",
+                                    "200ms",
+                                    "1s"
+                                ]
+                            },
+                            "latency_p99": {
+                                "type": "string",
+                                "description": "99th percentile latency",
+                                "examples": [
+                                    "100ms",
+                                    "500ms",
+                                    "5s"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "free_tier": {
+                    "type": "object",
+                    "description": "Free tier limits if available",
+                    "properties": {
+                        "requests": {
+                            "type": "integer",
+                            "description": "Free requests per month"
+                        },
+                        "expires": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "When free tier expires"
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "performance": {
+            "type": "object",
+            "description": "Performance characteristics",
+            "properties": {
+                "availability": {
+                    "type": "string",
+                    "description": "SLA availability percentage",
+                    "examples": [
+                        "99.9%",
+                        "99.99%"
+                    ]
+                },
+                "rate_limit": {
+                    "type": "string",
+                    "description": "Rate limiting",
+                    "examples": [
+                        "100/min",
+                        "1000/hour"
+                    ]
+                },
+                "max_payload": {
+                    "type": "string",
+                    "description": "Maximum payload size",
+                    "examples": [
+                        "10MB",
+                        "100MB"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": true
+}

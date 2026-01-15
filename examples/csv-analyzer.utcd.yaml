@@ -1,0 +1,84 @@
+# CSV Analyzer Tool - UTCD Descriptor  
+# Example: Full-featured tool with all profiles (GDPR compliant)
+
+utcd_version: "1.0"
+
+identity:
+  name: "EU CSV Analyzer"
+  purpose: "Analyze CSV data with GDPR-compliant processing in EU data centers"
+
+capability:
+  domain: "data-processing"
+  inputs:
+    - "csv_file"
+    - "analysis_type"
+    - "columns"
+  outputs:
+    - "statistics"
+    - "charts"
+    - "report"
+
+constraints:
+  side_effects:
+    - "none"  # Pure computation, no side effects
+  data_retention: "none"  # Stateless processing
+
+connection:
+  modes:
+    - type: "http"
+      detail: "https://api.eu-analytics.example.com/analyze"
+    - type: "mcp"
+      detail: "csv-analyzer-mcp"
+
+# Full security profile
+security:
+  fingerprint: "sha256:gdpr789..."
+  publisher: "did:web:eu-analytics.example.com"
+  signatures:
+    - alg: "ed25519"
+      key_id: "did:web:eu-analytics.example.com#key-1"
+      sig: "base64signature..."
+  audit_url: "https://eu-analytics.example.com/security-audit-2024.pdf"
+  vulnerability_disclosure: "https://eu-analytics.example.com/security"
+
+# Full privacy profile
+privacy:
+  data_location:
+    - "EU"
+  encryption:
+    - "in-transit"
+    - "at-rest"
+    - "end-to-end"
+  pii_handling: "anonymized"
+  data_deletion: "immediate"
+
+# Compliance certifications
+compliance:
+  standards:
+    - "GDPR"
+    - "SOC2-Type2"
+    - "ISO27001"
+  certifications:
+    - name: "GDPR Compliance Certificate"
+      expires: "2025-12-31"
+      url: "https://eu-analytics.example.com/gdpr-cert.pdf"
+
+# Cost profile
+cost:
+  model: "free"
+  currency: "EUR"
+  estimates:
+    - input: "1MB CSV"
+      cost: "0.00 EUR"
+      latency_p50: "100ms"
+    - input: "100MB CSV"
+      cost: "0.00 EUR"
+      latency_p50: "2s"
+  free_tier:
+    requests: 10000
+
+# Performance characteristics
+performance:
+  availability: "99.99%"
+  rate_limit: "1000/min"
+  max_payload: "500MB"
