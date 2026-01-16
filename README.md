@@ -1,9 +1,21 @@
-# UTCD — Universal Tool Capability Descriptor
+<p align="center">
+  <img src="assets/logo.png" alt="UTCD Logo" width="120">
+</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+<h1 align="center">UTCD — Universal Tool Capability Descriptor</h1>
 
-**UTCD** is a minimal, execution-agnostic, open descriptor system that allows AI agents to discover, evaluate, and reason about tools **before execution**.
+<p align="center">
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python 3.9+"></a>
+</p>
+
+<p align="center">
+  <strong>A minimal, execution-agnostic, open descriptor system that allows AI agents to discover, evaluate, and reason about tools before execution.</strong>
+</p>
+
+---
+
+
 
 ## 🎯 What is UTCD?
 
