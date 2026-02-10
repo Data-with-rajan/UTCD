@@ -10,7 +10,8 @@
 </p>
 
 <p align="center">
-  <strong>A minimal, execution-agnostic, open descriptor system that allows AI agents to discover, evaluate, and reason about tools before execution.</strong>
+  <strong>A minimal, execution-agnostic ecosystem for AI governance.</strong><br>
+  <strong>UTCD</strong> (Capability) + <strong>ABC</strong> (Behavior) = The AI Agent Contract Stack.
 </p>
 
 ---
@@ -42,6 +43,34 @@ connection:
     - type: "http"
       detail: "https://api.example.com/analyze"
 ```
+
+## 🎭 What is ABC?
+
+**ABC (Agent Behavior Contract)** is the governance layer that defines how an agent must behave when using tools. If UTCD is the "Nutrition Label," ABC is the **"Enforceable Behavioral Boundary."**
+
+```yaml
+identity:
+  contract_id: "urn:abc:research-agent:v1"
+
+cognition:
+  reasoning_mode: "deliberative"
+  max_reasoning_depth: 3
+
+tools:
+  reference_type: "utcd"
+  allowed_tools: ["utcd:web-search:v1"]
+
+execution:
+  deterministic: true
+  max_tool_calls: 10
+  token_budget: 100000
+
+governance:
+  hitl_required: true
+  memory_policy: "stateless"
+```
+
+Together, UTCD (Capability) and ABC (Behavior) create the **AI Agent Contract Stack**.
 
 ## 🚀 Quick Start
 
@@ -101,6 +130,10 @@ UTCD/
 │   ├── validator.py           # Validate UTCD files
 │   └── agent.py               # Reasoning agent
 ├── examples/                  # Example UTCD files
+├── abc/                       # Agent Behavior Contract (ABC)
+│   ├── abc-spec.md            # Formal specification
+│   ├── abc-schema.json        # JSON Schema for contracts
+│   └── examples/              # Example .abc.yaml contracts
 ├── demos/                     # Demo scripts
 └── tests/                     # Unit tests
 ```
@@ -130,6 +163,7 @@ UTCD/
 | 2 | Well-known URL (`/.well-known/utcd.yaml`) | ✅ SHOULD |
 | 3 | Embedded reference in manifest | ⚠️ MAY |
 | 4 | Central registry | ❌ NEVER REQUIRED |
+| 5 | Future Roadmap | [Roadmap](FUTURE_ROADMAP.md) |
 
 ## 📄 License
 

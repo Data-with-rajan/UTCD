@@ -1,0 +1,42 @@
+identity:
+  contract_id: "urn:abc:researcher:v1"
+  version: "1.0.0"
+  description: "Behavior contract for low-risk technical research agent"
+
+mission:
+  primary_goal: "Synthesize technical documentation from allowed UTCD tools."
+  measurable_metrics:
+    - "citation_accuracy"
+    - "completion_rate"
+
+cognition:
+  reasoning_mode: "deliberative"
+  max_reasoning_depth: 3
+  reflection_allowed: true
+
+tools:
+  reference_type: "utcd"
+  allowed_tools:
+    - "utcd:web-search:v1"
+    - "utcd:file-reader:v1"
+
+execution:
+  deterministic: true
+  max_tool_calls: 10
+  timeout_seconds: 300
+  token_budget: 100000
+
+risk:
+  risk_level: "low"
+  require_sandbox: false
+  logging_required: true
+
+ethics:
+  no_deception: true
+  no_sensitive_data_extraction: true
+  transparency_required: false
+
+governance:
+  hitl_required: false
+  memory_policy: "session"
+  data_residency: ["US", "EU"]

@@ -1,0 +1,41 @@
+identity:
+  contract_id: "urn:abc:analytics-agent:v1"
+  version: "1.0.0"
+  description: "Behavior contract for medium-risk data analytics agent"
+
+mission:
+  primary_goal: "Perform statistical analysis on uploaded datasets."
+  measurable_metrics:
+    - "calculation_precision"
+
+cognition:
+  reasoning_mode: "deliberative"
+  max_reasoning_depth: 5
+  reflection_allowed: true
+
+tools:
+  reference_type: "utcd"
+  allowed_tools:
+    - "utcd:csv-analyzer:v1"
+    - "utcd:plotter:v1"
+
+execution:
+  deterministic: false
+  max_tool_calls: 25
+  timeout_seconds: 600
+  token_budget: 250000
+
+risk:
+  risk_level: "medium"
+  require_sandbox: true
+  logging_required: true
+
+ethics:
+  no_deception: true
+  no_sensitive_data_extraction: false
+  transparency_required: true
+
+governance:
+  hitl_required: true
+  memory_policy: "stateless"
+  data_residency: ["US"]

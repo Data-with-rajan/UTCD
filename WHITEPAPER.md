@@ -16,6 +16,8 @@ UTCD (Universal Tool Capability Descriptor) fills this gap with a minimal, execu
 
 UTCD is not a platform, runtime, or marketplace. It is **infrastructure** — designed to be easy to publish, easy to ignore, and impossible to misuse safely.
 
+With the introduction of **ABC (Agent Behavior Contract)**, we extend this infrastructure to include a enforceable behavioral boundary, completing the **AI Agent Contract Stack**.
+
 ---
 
 ## Table of Contents
@@ -124,9 +126,14 @@ UTCD is built on non-negotiable principles:
 
 ## 4. Architecture
 
-```
 ┌─────────────────────────────────────────┐
-│              UTCD Core                  │ ← Mandatory, frozen
+│              ABC (Behavior)             │ ← ENFORCEMENT LAYER
+│     (execution, ethics, governance)     │
+└─────────────────────────────────────────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────┐
+│              UTCD (Capability)          │ ← DESCRIPTOR LAYER
 │     (identity, capability, constraints) │
 └─────────────────────────────────────────┘
                     │
@@ -135,13 +142,6 @@ UTCD is built on non-negotiable principles:
 │            UTCD Profiles                │ ← Optional, composable
 │    (security, privacy, cost, etc.)      │
 └─────────────────────────────────────────┘
-                    │
-                    ▼
-┌─────────────────────────────────────────┐
-│           UTCD Extensions               │ ← Experimental
-│      (community-driven additions)       │
-└─────────────────────────────────────────┘
-```
 
 This layered architecture mirrors successful standards like Linux, TCP/IP, and Kubernetes.
 
@@ -391,6 +391,7 @@ Agents exchange UTCD descriptors to coordinate capabilities.
 - Blog post: "Why UTCD"
 
 ### Phase 3: Ecosystem (Planned)
+- ABC (Agent Behavior Contract) v0.1 release
 - MCP integration
 - Community profile contributions
 - Enterprise governance tools

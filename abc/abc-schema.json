@@ -1,0 +1,205 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://utcd.dev/schema/abc-v0.1.schema.json",
+    "title": "ABC Agent Behavior Contract Schema",
+    "description": "Schema for validating Agent Behavior Contracts (ABC) v0.1",
+    "type": "object",
+    "required": [
+        "identity",
+        "mission",
+        "cognition",
+        "tools",
+        "execution",
+        "risk",
+        "ethics",
+        "governance"
+    ],
+    "properties": {
+        "identity": {
+            "type": "object",
+            "required": [
+                "contract_id",
+                "version",
+                "description"
+            ],
+            "properties": {
+                "contract_id": {
+                    "type": "string",
+                    "pattern": "^urn:abc:[a-z0-9-]+:v[0-9]+$"
+                },
+                "version": {
+                    "type": "string",
+                    "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "mission": {
+            "type": "object",
+            "required": [
+                "primary_goal"
+            ],
+            "properties": {
+                "primary_goal": {
+                    "type": "string"
+                },
+                "measurable_metrics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "cognition": {
+            "type": "object",
+            "required": [
+                "reasoning_mode",
+                "max_reasoning_depth",
+                "reflection_allowed"
+            ],
+            "properties": {
+                "reasoning_mode": {
+                    "enum": [
+                        "reactive",
+                        "deliberative"
+                    ]
+                },
+                "max_reasoning_depth": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "reflection_allowed": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "tools": {
+            "type": "object",
+            "required": [
+                "reference_type",
+                "allowed_tools"
+            ],
+            "properties": {
+                "reference_type": {
+                    "const": "utcd"
+                },
+                "allowed_tools": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1
+                }
+            }
+        },
+        "execution": {
+            "type": "object",
+            "required": [
+                "deterministic",
+                "max_tool_calls",
+                "timeout_seconds",
+                "token_budget"
+            ],
+            "properties": {
+                "deterministic": {
+                    "type": "boolean"
+                },
+                "max_tool_calls": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "timeout_seconds": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "token_budget": {
+                    "type": "integer",
+                    "minimum": 100
+                }
+            }
+        },
+        "risk": {
+            "type": "object",
+            "required": [
+                "risk_level",
+                "require_sandbox",
+                "logging_required"
+            ],
+            "properties": {
+                "risk_level": {
+                    "enum": [
+                        "low",
+                        "medium",
+                        "high"
+                    ]
+                },
+                "require_sandbox": {
+                    "type": "boolean"
+                },
+                "logging_required": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "ethics": {
+            "type": "object",
+            "required": [
+                "no_deception",
+                "no_sensitive_data_extraction"
+            ],
+            "properties": {
+                "no_deception": {
+                    "type": "boolean"
+                },
+                "no_sensitive_data_extraction": {
+                    "type": "boolean"
+                },
+                "transparency_required": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "cost": {
+            "type": "object",
+            "properties": {
+                "max_external_calls": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "max_parallel_actions": {
+                    "type": "integer",
+                    "minimum": 1
+                }
+            }
+        },
+        "governance": {
+            "type": "object",
+            "required": [
+                "hitl_required",
+                "memory_policy"
+            ],
+            "properties": {
+                "hitl_required": {
+                    "type": "boolean"
+                },
+                "memory_policy": {
+                    "enum": [
+                        "stateless",
+                        "session",
+                        "persistent"
+                    ]
+                },
+                "data_residency": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

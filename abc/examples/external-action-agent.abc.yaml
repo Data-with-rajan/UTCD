@@ -1,0 +1,43 @@
+identity:
+  contract_id: "urn:abc:external-action-agent:v1"
+  version: "1.0.0"
+  description: "Behavior contract for high-risk external tool execution"
+
+mission:
+  primary_goal: "Execute deployment scripts and monitor system health."
+
+cognition:
+  reasoning_mode: "deliberative"
+  max_reasoning_depth: 8
+  reflection_allowed: true
+
+tools:
+  reference_type: "utcd"
+  allowed_tools:
+    - "utcd:ssh-client:v1"
+    - "utcd:aws-cli:v2"
+
+execution:
+  deterministic: true
+  max_tool_calls: 50
+  timeout_seconds: 1200
+  token_budget: 500000
+
+risk:
+  risk_level: "high"
+  require_sandbox: true
+  logging_required: true
+
+ethics:
+  no_deception: true
+  no_sensitive_data_extraction: true
+  transparency_required: true
+
+governance:
+  hitl_required: true
+  memory_policy: "stateless"
+  data_residency: ["Global"]
+
+cost:
+  max_external_calls: 100
+  max_parallel_actions: 5
