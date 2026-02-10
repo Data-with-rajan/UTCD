@@ -65,7 +65,7 @@ pip install pyyaml
 python -m utcd.validator examples/csv-analyzer.utcd.yaml
 
 # Validate a Contract (ABC)
-# (Validation CLI coming soon - check FUTURE_ROADMAP.md)
+python -m utcd.abc_validator abc/examples/research-agent.abc.yaml
 ```
 
 ### Use the Agent

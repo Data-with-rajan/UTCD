@@ -1,0 +1,39 @@
+identity:
+  contract_id: "urn:abc:eu-secure-analyst:v1"
+  version: "1.0.0"
+  description: "Behavior contract for highly regulated EU-based data processing"
+
+mission:
+  primary_goal: "Audit financial records for EU-based institutions."
+
+cognition:
+  reasoning_mode: "deliberative"
+  max_reasoning_depth: 10
+  reflection_allowed: true
+
+tools:
+  reference_type: "utcd"
+  allowed_tools:
+    - "utcd:audit-tool:v1"
+    - "utcd:secure-file-reader:v1"
+
+execution:
+  deterministic: true
+  max_tool_calls: 100
+  timeout_seconds: 3600
+  token_budget: 1000000
+
+risk:
+  risk_level: "high"
+  require_sandbox: true
+  logging_required: true
+
+ethics:
+  no_deception: true
+  no_sensitive_data_extraction: false
+  transparency_required: true
+
+governance:
+  hitl_required: true
+  memory_policy: "stateless"
+  data_residency: ["EU"]
