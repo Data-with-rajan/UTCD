@@ -30,7 +30,7 @@ constraints:
   side_effects: ["net:http-outbound"]
 ```
 
-### 2. ABC (Behavior Layer)
+### 2. Agent Behavior Contract (ABC)
 The enforceable contract that governs agent behavior. It defines the **boundaries** for tool usage.
 
 ```yaml
@@ -58,7 +58,7 @@ python -m utcd.validator examples/csv-analyzer.utcd.yaml
 ### 2. Agent Behavior Validation (ABC)
 Ensures an agent's "Behavioral Contract" is valid and compliant with governance rules.
 ```bash
-python -m utcd.abc_validator abc/examples/research-agent.abc.yaml
+python -m utcd.contract_validator contracts/examples/research-agent.contract.yaml
 ```
 
 ### Use the Agent
@@ -98,12 +98,13 @@ UTCD/
 ├── utcd/                      # Python package
 │   ├── loader.py              # Load UTCD files
 │   ├── validator.py           # Validate UTCD files
+│   ├── contract_validator.py  # Validate behavior contracts
 │   └── agent.py               # Reasoning agent
 ├── examples/                  # Example UTCD files
-├── abc/                       # Agent Behavior Contract (ABC)
-│   ├── abc-spec.md            # Formal specification
-│   ├── abc-schema.json        # JSON Schema for contracts
-│   └── examples/              # Example .abc.yaml contracts
+├── contracts/                 # Agent Behavior Contracts (ABC)
+│   ├── contract-spec.md       # Formal specification
+│   ├── contract-schema.json   # JSON Schema for contracts
+│   └── examples/              # Example .contract.yaml contracts
 ├── demos/                     # Demo scripts
 └── tests/                     # Unit tests
 ```

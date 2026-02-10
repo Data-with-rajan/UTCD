@@ -1,6 +1,6 @@
-# ABC – Agent Behavior Contract Specification (v0.1)
+# Agent Behavior Contract (ABC) Specification (v1.0)
 
-**Status:** Draft / v0.1-alpha  
+**Status:** Published / v1.0
 **Parent Project:** [UTCD (Universal Tool Capability Descriptor)](../README.md)  
 **Vision:** Define a lightweight, enforceable, execution-agnostic contract that governs how AI agents behave when using UTCD-defined tools.
 
@@ -12,10 +12,10 @@ ABC (Agent Behavior Contract) is a focused enforcement layer that complements UT
 
 ## 2. Core Principles
 
-- **Minimalism:** v0.1 focuses on the most critical behavioral constraints.
-- **UTCD-Dependency:** ABC contracts only reference tools defined via UTCD.
+- **Minimalism:** v1.0 focuses on the most critical behavioral and governance constraints.
+- **UTCD-Dependency:** contracts only reference tools defined via UTCD.
 - **Determinism-First:** Encourages predictable agent execution.
-- **Safety Inheritance:** ABC risk levels are derived from and validated against UTCD tool metadata.
+- **Safety Inheritance:** contract risk levels are derived from and validated against UTCD tool metadata.
 
 ## 3. Contract Layers
 
@@ -78,9 +78,9 @@ Advanced controls for compliance and oversight.
 ## 4. Validation Rules
 
 A validator must enforce the following:
-1. **Schema Compliance:** The contract must match the `abc-schema.json`.
+1. **Schema Compliance:** The contract must match the `contract-schema.json`.
 2. **UTCD Verification:** All `allowed_tools` must be valid UTCD descriptors.
-3. **Risk Parity:** The contract `risk_level` must be compatible with the aggregate risk of the allowed tools.
+3. **Risk Parity:** The contract `risk_level` must match or exceed the highest risk level among the allowed tools (Risk Inheritance).
 4. **Budget Enforcement:** Runtimes must proactively terminate agents exceeding `max_tool_calls` or `token_budget`.
 
 ## 5. Ecosystem Positioning

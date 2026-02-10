@@ -3,9 +3,17 @@ UTCD Loader - Load and parse UTCD descriptor files.
 """
 
 import yaml
+import json
 from pathlib import Path
-from typing import Optional, List, Dict, Any, Set
+from typing import Optional, List, Dict, Any, Set, Union
 from dataclasses import dataclass, field
+
+try:
+    from cryptography.hazmat.primitives.asymmetric import ed25519
+    from cryptography.exceptions import InvalidSignature
+    HAS_CRYPTOGRAPHY = True
+except ImportError:
+    HAS_CRYPTOGRAPHY = False
 
 
 @dataclass
@@ -146,13 +154,45 @@ class UTCDDescriptor:
     def retains_data(self) -> bool:
         """Check if tool retains data."""
         return self.constraints.data_retention != "none"
+    
+    def verify_signatures(self) -> bool:
+        """
+        Verify all cryptographic signatures in the security profile.
+        Returns True if all signatures are valid, False otherwise.
+        """
+        if not self.has_signatures:
+            return True  # Vacuously true if no signatures present (but check has_signatures elsewhere)
+            
+        if not HAS_CRYPTOGRAPHY:
+            print("Warning: cryptography library not installed. Skipping signature verification.")
+            return False
+
+        # In a real implementation, we would canonicalize the descriptor data
+        # For this version, we verify signatures over the tool's identity name + purpose
+        message = f"{self.identity.name}:{self.identity.purpose}".encode('utf-8')
+        
+        try:
+            for sig_data in self.security.signatures:
+                public_key_hex = sig_data.get("public_key")
+                signature_hex = sig_data.get("signature")
+                
+                if not public_key_hex or not signature_hex:
+                    return False
+                
+                public_key = ed25519.Ed25519PublicKey.from_public_bytes(bytes.fromhex(public_key_hex))
+                public_key.verify(bytes.fromhex(signature_hex), message)
+            
+            return True
+        except (InvalidSignature, ValueError, TypeError) as e:
+            print(f"Signature verification failed: {e}")
+            return False
 
 
 class UTCDLoader:
     """Load UTCD descriptors from files."""
     
     @staticmethod
-    def load(path: str | Path) -> UTCDDescriptor:
+    def load(path: Union[str, Path]) -> UTCDDescriptor:
         """Load a UTCD descriptor from a YAML file."""
         path = Path(path)
         

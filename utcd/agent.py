@@ -2,11 +2,16 @@
 UTCD Agent - Reasoning agent for tool selection and policy enforcement.
 """
 
-from typing import List, Dict, Any, Optional, Callable
+from typing import List, Dict, Any, Optional, Callable, Union
 from dataclasses import dataclass, field
 from enum import Enum
 
 from .loader import UTCDDescriptor, UTCDLoader
+
+
+class NoSafeToolsException(Exception):
+    """Raised when no tools pass the safety policy."""
+    pass
 
 
 class DecisionType(Enum):
@@ -271,8 +276,8 @@ class UTCDAgent:
         approved = [d for d in decisions if d.decision != DecisionType.REJECTED]
         
         if not approved:
-            # Return best rejected with explanation
-            return max(decisions, key=lambda d: d.score)
+            # Flaw 4: Don't return rejected tools by default
+            return None
         
         # Return highest scoring approved tool
         return max(approved, key=lambda d: d.score)

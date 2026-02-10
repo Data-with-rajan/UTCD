@@ -51,4 +51,4 @@ governance:
 
 ## 5. Validator Enforcement
 
-The `abc validate` command ensures these fields are present and follow the semantic rules defined in `abc-schema.json`. Runtimes that support ABC are expected to kill any agent process that attempts to bypass these constraints (e.g., an EU-only agent attempting to call a US-based API).
+The `python -m utcd.contract_validator` command ensures these fields are present and follow the semantic rules defined in `contract-schema.json`. Runtimes that support ABC are expected to kill any agent process that attempts to bypass these constraints (e.g., an EU-only agent attempting to call a US-based API).

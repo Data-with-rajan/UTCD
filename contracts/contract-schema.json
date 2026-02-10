@@ -1,8 +1,8 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://utcd.dev/schema/abc-v0.1.schema.json",
-    "title": "ABC Agent Behavior Contract Schema",
-    "description": "Schema for validating Agent Behavior Contracts (ABC) v0.1",
+    "$id": "https://utcd.dev/schema/contract-v1.0.schema.json",
+    "title": "Agent Behavior Contract (ABC) Schema",
+    "description": "Schema for validating Agent Behavior Contracts (ABC) v1.0",
     "type": "object",
     "required": [
         "identity",

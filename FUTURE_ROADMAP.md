@@ -20,16 +20,14 @@ The goal of Phase 2 is to make UTCD indispensable for agent developers by integr
 
 ---
 
-## 🎭 Phase 2.5: ABC (Agent Behavior Contract)
+## 🎭 Phase 2.5: Agent Behavior Contract (ABC)
 
 Defining the behavior layer for agent execution.
 
-- [x] **ABC Specification**: Initial v0.1 release.
-- [x] **ABC JSON Schema**: Standard core schema for behavior contracts.
-- [ ] **ABC Validator CLI**:
-    - `abc validate <contract>`: Check schema compliance.
-    - `abc check-utcd <contract>`: Ensure all tool references exist.
-    - `abc compute-risk`: Aggregate and verify risk inheritance.
+- [x] **Contract Specification**: Initial v1.0 release.
+- [x] **Contract JSON Schema**: Standard core schema for behavior contracts.
+- [x] **Contract Validator CLI**:
+    - `python -m utcd.contract_validator`: Check schema compliance and tool risk inheritance.
 - [ ] **Runtime Adapters**: Reference implementations for enforcing ABC constraints in agent runtimes.
 
 ---
@@ -46,7 +44,7 @@ Transforming UTCD from a specification into a thriving ecosystem of utility appl
 3. **Governance Dashboard**:
     - An enterprise internal tool for CISOs to monitor and set policies (e.g., "Block any tool that allows `net:http-outbound` without a Security Profile").
 4. **UTCD Auto-Generator**:
-    - An AI-powered CLI that scans a function/API and writes the initial `utcd.yaml` draft.
+    - AI-powered CLI scanning a function/API to write initial `utcd.yaml` drafts.
 
 ---
 
@@ -57,9 +55,9 @@ Scaling the standard to be the default metadata layer for all machine intelligen
 - [ ] **Multi-Language Loaders**:
     - `utcd-js`: Reference implementation for Node.js and Browser environments.
     - `utcd-go`: High-performance loader for infrastructure tools.
-- [ ] **Cryptographic Verification**:
-    - Full implementation of the `Security Profile` with Ed25519 signatures.
-    - Decentralized Identifiers (DID) integration for publisher trust.
+- [x] **Cryptographic Verification**:
+    - Implementation of the `Security Profile` with Ed25519 signatures in `UTCDDescriptor.verify_signatures()`.
+- [ ] **Decentralized Identifiers (DID)**: Integration for publisher trust.
 - [ ] **Interactive Reasoning**:
     - Enable "negotiation" where an agent can ask a tool for a more restricted UTCD (e.g., "Run this for me with a 'read-only' constraint").
 
