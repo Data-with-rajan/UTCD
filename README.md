@@ -5,152 +5,121 @@
 <h1 align="center">The AI Agent Contract Stack</h1>
 
 <p align="center">
-  <strong>The minimal, execution-agnostic governance framework for machine intelligence.</strong><br>
-  <strong>UTCD</strong> (Capability Layer) + <strong>ABC</strong> (Behavior Layer)
+  <strong>The definitive, execution-agnostic governance framework for the Agentic Economy.</strong><br>
+  A dual-layer protocol for <strong>Capabilities</strong> (UTCD) and <strong>Behavior</strong> (ABC/Contracts).
 </p>
+
+<div align="center">
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue" alt="Version 1.0.0">
+  <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
+  <img src="https://img.shields.io/badge/Security-Cryptographically_Signed-blueviolet" alt="Signed">
+</div>
 
 ---
 
+## 🏗️ The Architecture
 
+The **AI Agent Contract Stack** provides a standardized way for AI systems to interact safely. It separates the **description of tools** from the **governance of agents**.
 
-## �️ The Mechanism
+### Layer 1: UTCD (Capabilities)
+**"What is this tool and what are its risks?"**
+UTCD provides a declarative "Nutrition Label" for tools. It allows agents to reason about side-effects, privacy, and costs **before execution**.
 
-The stack separates **Capability** (what a tool is) from **Behavior** (how it's used).
+> *Stored in: `examples/*.utcd.yaml`*
 
-### 1. UTCD (Capability Layer)
-A YAML-based "nutrition label" for tools. It lets tools describe themselves so agents can reason about them **before execution**.
+### Layer 2: ABC (Contracts)
+**"How is this agent permitted to behave?"**
+Agent Behavior Contracts (ABC) define the enforceable boundaries—MISSION, RISK, and GOVERNANCE—that an agent must respect during its lifecycle.
 
-```yaml
-utcd_version: "1.0"
-identity:
-  name: "Web Search"
-capability:
-  domain: "search"
-constraints:
-  side_effects: ["net:http-outbound"]
-```
+> *Stored in: [contracts/](contracts/) directory*
 
-### 2. Agent Behavior Contract (ABC)
-The enforceable contract that governs agent behavior. Defined by the ABC standard and stored in the `contracts/` directory.
+---
 
-```yaml
-identity:
-  contract_id: "urn:abc:researcher:v1"
-tools:
-  reference_type: "utcd"
-  allowed_tools: ["utcd:web-search:v1"]
-execution:
-  max_tool_calls: 5
-governance:
-  hitl_required: true   # Human-in-the-loop
-```
-
-## 🛠️ CLI Usage
-
-The stack provides two primary validators to ensure your descriptors and contracts are production-ready.
+## � Quick Start
 
 ### 1. Tool Capability Validation (UTCD)
-Ensures a tool's "Nutrition Label" follows the standard schema.
+Ensure your tool's "Nutrition Label" follows the standard schema:
 ```bash
 python -m utcd.validator examples/csv-analyzer.utcd.yaml
 ```
 
-#### 2. Validate Behavioral Integrity (ABC)
-Ensure an **Agent Behavior Contract** is valid and respects tool risk inheritance:
+### 2. Behavioral Integrity Validation (ABC)
+Validate an agent's behavioral contract and verify tool risk inheritance:
 ```bash
 python -m utcd.contract_validator contracts/examples/research-agent.contract.yaml
 ```
 
-#### 3. Sign a Descriptor
-Secure your tool descriptor using the canonical hashing signer:
+### 3. Cryptographic Signing
+Secure your tool descriptors to prevent "Shadow Capability" tampering:
 ```bash
 python demos/sign_descriptor.py examples/csv-analyzer.utcd.yaml
 ```
-*Note: This generates or uses `.utcd_key` to sign the canonical descriptor content.*
-
-### Use the Agent
-
-```python
-from utcd import UTCDAgent, UTCDLoader, Policy
-
-# Create agent with GDPR policy
-agent = UTCDAgent(policy=Policy.gdpr())
-
-# Load tools
-agent.load_tools_from_directory("./examples")
-
-# Find the safest data processing tool
-results = agent.find_tools(domain="data-processing")
-best = results[0]
-
-print(f"Selected: {best.tool_name}")
-print(f"Score: {best.score}/100")
-```
-
-### Run Demos
-
-```bash
-python demos/demo_selection.py     # Tool selection
-python demos/demo_rejection.py     # Tool rejection
-python demos/demo_degradation.py   # Graceful degradation
-```
-
-## 📁 Project Structure
-
-```
-UTCD/
-├── schema/                    # JSON Schema definitions
-│   ├── utcd-core.schema.json  # Core schema (frozen)
-│   └── profiles/              # Optional profile schemas
-├── utcd/                      # Python package
-│   ├── loader.py              # Load UTCD files
-│   ├── validator.py           # Validate UTCD files
-│   ├── contract_validator.py  # Validate behavior contracts
-│   └── agent.py               # Reasoning agent
-├── examples/                  # Example UTCD files
-├── contracts/                 # Agent Behavior Contracts (ABC)
-│   ├── contract-spec.md       # Formal specification
-│   ├── contract-schema.json   # JSON Schema for contracts
-│   └── examples/              # Example .contract.yaml contracts
-├── demos/                     # Demo scripts
-└── tests/                     # Unit tests
-```
-
-## 🔐 Built-in Policies
-
-| Policy | Description |
-|--------|-------------|
-| `Policy.strict()` | No side effects, no data retention |
-| `Policy.standard()` | Balanced safety defaults |
-| `Policy.permissive()` | Warnings only, no rejections |
-| `Policy.gdpr()` | EU data residency, encryption required |
-
-## 📖 Core Principles
-
-1. **Pre-execution only** — UTCD describes, never executes
-2. **Static & declarative** — No runtime dependencies
-3. **Offline-valid** — Works without network
-4. **Human + machine readable** — YAML format
-5. **Minimal core, optional profiles** — Core is frozen, profiles evolve
-
-## 🔗 Discovery Tiers
-
-| Tier | Mechanism | Status |
-|------|-----------|--------|
-| 1 | Shipped with tool (`utcd.yaml`) | ✅ MUST |
-| 2 | Well-known URL (`/.well-known/utcd.yaml`) | ✅ SHOULD |
-| 3 | Embedded reference in manifest | ⚠️ MAY |
-| 4 | Central registry | ❌ NEVER REQUIRED |
-| 5 | Future Roadmap | [Roadmap](FUTURE_ROADMAP.md) |
-
-## 📄 License
-
-MIT License - See [LICENSE](LICENSE) for details.
-
-## 🤝 Contributing
-
-Contributions welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
 
 ---
 
-**UTCD is infrastructure, not a product.** It's designed to be easy to publish, easy to ignore, and impossible to misuse safely.
+## 🧠 Reasoning Agent Example
+
+The `utcd` package includes a built-in reasoning engine that selects tools based on your governance policy.
+
+```python
+from utcd import UTCDAgent, Policy
+
+# 1. Initialize with a governance policy (e.g., GDPR compliant)
+agent = UTCDAgent(policy=Policy.gdpr())
+
+# 2. Discover tools
+agent.load_tools_from_directory("./examples")
+
+# 3. Find the safest tool for the mission
+results = agent.find_tools(domain="data-processing")
+best_tool = results[0]
+
+print(f"Selected: {best_tool.tool_name} (Score: {best_tool.score}/100)")
+```
+
+---
+
+## 📁 Project Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| [**utcd/**](utcd/) | The core Python package (Loader, Validator, Signer, RiskEngine). |
+| [**contracts/**](contracts/) | **Agent Behavior Contracts (ABC)** specifications and examples. |
+| [**schema/**](schema/) | Formal JSON Schema definitions for core and profiles. |
+| [**examples/**](examples/) | Sample UTCD tool descriptors. |
+| [**demos/**](demos/) | Ready-to-run scenarios (Selection, Rejection, Degradation). |
+
+---
+
+## 🔐 Built-in Policies
+
+| Policy | Scope | Enforcement |
+|--------|-------|-------------|
+| `Policy.strict()` | Safety | Rejects any tool with side-effects or data retention. |
+| `Policy.standard()` | Balanced | Standard safety defaults with performance weighting. |
+| `Policy.gdpr()` | Compliance | Enforces EU data residency and encryption standards. |
+| `Policy.permissive()` | Audit | Provides warnings without blocking execution. |
+
+---
+
+## 📖 Key Principles
+
+1.  **Pre-execution only** — We describe, never execute.
+2.  **Static & Declarative** — Machine-readable YAML, no runtime dependencies.
+3.  **Offline-Valid** — Guaranteed safety without network calls.
+4.  **Immutable Trust** — Canonical hashing prevents tampering after signing.
+5.  **Agent-Centric** — Designed to be ingested by LLMs for autonomous reasoning.
+
+---
+
+## � Documentation
+
+- [**WHITEPAPER.md**](WHITEPAPER.md) — The philosophical and technical foundation.
+- [**contracts/contract-spec.md**](contracts/contract-spec.md) — Formal ABC specification.
+- [**FUTURE_ROADMAP.md**](FUTURE_ROADMAP.md) — Our plan for an Agentic Governance ecosystem.
+
+---
+
+<p align="center">
+  Developed by <strong>Rajan</strong> | Released under <strong>MIT License</strong>
+</p>
