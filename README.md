@@ -45,26 +45,19 @@ governance:
   hitl_required: true   # Human-in-the-loop
 ```
 
-## 🚀 Quick Start
+## 🛠️ CLI Usage
 
-### Installation
+The stack provides two primary validators to ensure your descriptors and contracts are production-ready.
 
+### 1. Tool Capability Validation (UTCD)
+Ensures a tool's "Nutrition Label" follows the standard schema.
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/utcd.git
-cd utcd
-
-# Install dependencies
-pip install pyyaml
+python -m utcd.validator examples/csv-analyzer.utcd.yaml
 ```
 
-### Validate Descriptors
-
+### 2. Agent Behavior Validation (ABC)
+Ensures an agent's "Behavioral Contract" is valid and compliant with governance rules.
 ```bash
-# Validate a Tool (UTCD)
-python -m utcd.validator examples/csv-analyzer.utcd.yaml
-
-# Validate a Contract (ABC)
 python -m utcd.abc_validator abc/examples/research-agent.abc.yaml
 ```
 
