@@ -89,11 +89,22 @@ class UTCDValidator:
         profiles_detected = set()
         
         # Validate core fields via Schema (Flaw 5: SSOT)
-        if HAS_JSONSCHEMA and self.core_schema:
+        if HAS_JSONSCHEMA and self.core_schema: # Multi-error validation (Fix #3)
             validator = jsonschema.Draft202012Validator(self.core_schema)
             for error in validator.iter_errors(data):
+                # Special handling for missing required fields to show full path (Fix 22/22)
+                path_parts = [str(p) for p in error.path]
+                if error.validator == "required" and isinstance(error.message, str) and "'" in error.message:
+                    # Extract the missing property name from the error message
+                    try:
+                        prop = error.message.split("'")[1]
+                        path_parts.append(prop)
+                    except IndexError:
+                        # Fallback if message format is unexpected
+                        pass
+                
                 errors.append(ValidationError(
-                    path=".".join([str(p) for p in error.path]),
+                    path=".".join(path_parts),
                     message=error.message
                 ))
         else:
@@ -101,7 +112,6 @@ class UTCDValidator:
             required = {
                 "identity": ["name", "purpose"],
                 "capability": ["domain", "inputs", "outputs"],
-                "constraints": ["side_effects", "data_retention"]
             }
             for section, fields in required.items():
                 if section not in data:

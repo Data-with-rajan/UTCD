@@ -61,6 +61,13 @@ Ensure an **Agent Behavior Contract** is valid and respects tool risk inheritanc
 python -m utcd.contract_validator contracts/examples/research-agent.contract.yaml
 ```
 
+#### 3. Sign a Descriptor
+Secure your tool descriptor using the canonical hashing signer:
+```bash
+python demos/sign_descriptor.py examples/csv-analyzer.utcd.yaml
+```
+*Note: This generates or uses `.utcd_key` to sign the canonical descriptor content.*
+
 ### Use the Agent
 
 ```python
