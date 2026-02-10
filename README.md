@@ -31,7 +31,7 @@ constraints:
 ```
 
 ### 2. Agent Behavior Contract (ABC)
-The enforceable contract that governs agent behavior. It defines the **boundaries** for tool usage.
+The enforceable contract that governs agent behavior. Defined by the ABC standard and stored in the `contracts/` directory.
 
 ```yaml
 identity:
@@ -55,8 +55,8 @@ Ensures a tool's "Nutrition Label" follows the standard schema.
 python -m utcd.validator examples/csv-analyzer.utcd.yaml
 ```
 
-### 2. Agent Behavior Validation (ABC)
-Ensures an agent's "Behavioral Contract" is valid and compliant with governance rules.
+#### 2. Validate Behavioral Integrity (ABC)
+Ensure an **Agent Behavior Contract** is valid and respects tool risk inheritance:
 ```bash
 python -m utcd.contract_validator contracts/examples/research-agent.contract.yaml
 ```

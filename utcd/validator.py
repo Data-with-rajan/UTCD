@@ -55,11 +55,17 @@ class UTCDValidator:
     
     def __init__(self, schema_dir: Optional[Union[str, Path]] = None):
         """Initialize validator with optional schema directory."""
-        self.schema_dir = Path(schema_dir) if schema_dir else None
+        if schema_dir:
+            self.schema_dir = Path(schema_dir)
+        else:
+            # Automatically resolve the schema path relative to the package (Fix #1)
+            self.schema_dir = Path(__file__).parent.parent / "schema"
+
         self.core_schema = None
         self.profile_schemas = {}
         
-        if self.schema_dir and HAS_JSONSCHEMA:
+        # Ensure it loads even if instantiated with default args
+        if self.schema_dir.exists() and HAS_JSONSCHEMA:
             self._load_schemas()
     
     def _load_schemas(self) -> None:
@@ -91,11 +97,19 @@ class UTCDValidator:
                     message=error.message
                 ))
         else:
-            # Fallback basic validation
-            required_top = ["utcd_version", "identity", "capability", "constraints", "connection"]
-            for field in required_top:
-                if field not in data:
-                    errors.append(ValidationError(path=field, message=f"Required field '{field}' is missing"))
+            # Fallback validation: at least check critical nested fields (Fix #2)
+            required = {
+                "identity": ["name", "purpose"],
+                "capability": ["domain", "inputs", "outputs"],
+                "constraints": ["side_effects", "data_retention"]
+            }
+            for section, fields in required.items():
+                if section not in data:
+                    errors.append(ValidationError(path=section, message=f"Required top-level field '{section}' is missing"))
+                    continue
+                for f in fields:
+                    if f not in data[section]:
+                        errors.append(ValidationError(path=f"{section}.{f}", message=f"Missing required sub-field"))
         
         # Detect and validate profiles
         for profile_key, profile_name in self.PROFILE_KEYS.items():

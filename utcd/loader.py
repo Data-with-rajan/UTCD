@@ -121,6 +121,9 @@ class UTCDDescriptor:
     cost: Optional[CostProfile] = None
     performance: Optional[PerformanceInfo] = None
     
+    # Raw data for signature verification (Fix #3)
+    _raw_data: Dict[str, Any] = field(default_factory=dict, repr=False)
+    
     # Source tracking
     source_path: Optional[str] = None
     
@@ -157,19 +160,28 @@ class UTCDDescriptor:
     
     def verify_signatures(self) -> bool:
         """
-        Verify all cryptographic signatures in the security profile.
-        Returns True if all signatures are valid, False otherwise.
+        Verify all cryptographic signatures using a canonical hash of the descriptor.
+        Returns True if all signatures are valid, False otherwise. (Fix #3)
         """
         if not self.has_signatures:
-            return True  # Vacuously true if no signatures present (but check has_signatures elsewhere)
+            return True
             
         if not HAS_CRYPTOGRAPHY:
             print("Warning: cryptography library not installed. Skipping signature verification.")
             return False
 
-        # In a real implementation, we would canonicalize the descriptor data
-        # For this version, we verify signatures over the tool's identity name + purpose
-        message = f"{self.identity.name}:{self.identity.purpose}".encode('utf-8')
+        # 1. Create a copy of the raw data
+        import copy
+        data_to_verify = copy.deepcopy(self._raw_data)
+        
+        # 2. Strip the security block (Fix #3: Shadow Capability Protection)
+        if "security" in data_to_verify:
+            # We must remove the signatures themselves to verify the content
+            del data_to_verify["security"]
+            
+        # 3. Create canonical JSON string (sorted keys)
+        canonical_json = json.dumps(data_to_verify, sort_keys=True, separators=(',', ':'))
+        message = canonical_json.encode('utf-8')
         
         try:
             for sig_data in self.security.signatures:
@@ -312,6 +324,7 @@ class UTCDLoader:
             compliance=compliance,
             cost=cost,
             performance=performance,
+            _raw_data=data,  # Store for signature verification
             source_path=source_path
         )
     

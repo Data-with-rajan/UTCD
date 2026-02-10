@@ -17,6 +17,7 @@ except ImportError:
 
 
 from .loader import UTCDLoader, UTCDDescriptor
+from .agent import RiskEngine
 
 @dataclass
 class ValidationError:
@@ -46,32 +47,16 @@ class ContractValidator:
     
     RISK_LEVELS = {"low": 1, "medium": 2, "high": 3}
     
-    def __init__(self, schema_path: Optional[Union[str, Path]] = None, utcd_dir: Optional[Union[str, Path]] = None):
+    def __init__(self, schema_path: Optional[Union[str, Path]] = None, utcd_dir: Optional[Union[str, Path]] = None, risk_engine: Optional[RiskEngine] = None):
         """Initialize validator with schema and optional tool directory."""
         self.schema_path = Path(schema_path) if schema_path else None
         self.utcd_dir = Path(utcd_dir) if utcd_dir else None
+        self.risk_engine = risk_engine or RiskEngine()
         self.schema = None
         
         if self.schema_path and self.schema_path.exists():
             with open(self.schema_path, 'r') as f:
                 self.schema = json.load(f)
-    
-    def _calculate_tool_risk(self, tool: UTCDDescriptor) -> str:
-        """Heuristic to determine tool risk level (Flaw 2)."""
-        side_effects = set(tool.constraints.side_effects)
-        retention = tool.constraints.data_retention
-        
-        # High Risk indicators
-        high_risk_triggers = {"process:spawn", "net:arbitrary", "io:filesystem-write"}
-        if any(trigger in side_effects for trigger in high_risk_triggers) or retention == "persistent":
-            return "high"
-            
-        # Medium Risk indicators
-        medium_risk_triggers = {"net:http-outbound", "io:filesystem-read"}
-        if any(trigger in side_effects for trigger in medium_risk_triggers) or retention == "session":
-            return "medium"
-            
-        return "low"
 
     def validate(self, data: Dict[str, Any]) -> ValidationResult:
         """Validate a contract dictionary."""
@@ -115,7 +100,8 @@ class ContractValidator:
                     if tool_path.exists():
                         try:
                             tool_desc = loader.load(tool_path)
-                            tool_risk_str = self._calculate_tool_risk(tool_desc)
+                            # Use the modular RiskEngine (Fix #4)
+                            tool_risk_str = self.risk_engine.calculate_risk(tool_desc)
                             tool_risk_val = self.RISK_LEVELS.get(tool_risk_str, 1)
                             
                             if tool_risk_val > contract_risk:

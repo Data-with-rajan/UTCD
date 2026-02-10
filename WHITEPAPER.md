@@ -8,13 +8,12 @@ Version 1.0 | January 2025
 
 ## Executive Summary
 
-The **AI Agent Contract Stack** fills this gap with two co-equal layers:
-1. **UTCD (Capability Layer)**: Enables AI agents to discover, evaluate, and reason about tools **before execution**.
-2. **ABC (Behavior Layer)**: Defines an enforceable behavioral boundary that governs how agents use those tools.
+The1. **UTCD (Capability Layer)**: Enables AI agents to discover, evaluate, and reason about tools **before execution**.
+2. **Agent Behavior Contract (ABC)**: Defines an enforceable behavioral boundary that governs how agents use those tools (stored in the `contracts/` directory).
 
 UTCD is not a platform, runtime, or marketplace. It is **infrastructure** — designed to be easy to publish, easy to ignore, and impossible to misuse safely.
 
-With the introduction of **ABC (Agent Behavior Contract)**, we extend this infrastructure to include a enforceable behavioral boundary, completing the **AI Agent Contract Stack**.
+With the introduction of **Agent Behavior Contract (ABC)**, we extend this infrastructure to include an enforceable behavioral boundary, completing the **AI Agent Contract Stack**.
 
 ---
 
@@ -125,7 +124,7 @@ UTCD is built on non-negotiable principles:
 ## 4. Architecture
 
 ┌─────────────────────────────────────────┐
-│              ABC (Behavior)             │ ← ENFORCEMENT LAYER
+│      Agent Behavior Contract (ABC)      │ ← ENFORCEMENT LAYER
 │     (execution, ethics, governance)     │
 └─────────────────────────────────────────┘
                     │
@@ -389,7 +388,7 @@ Agents exchange UTCD descriptors to coordinate capabilities.
 - Blog post: "Why UTCD"
 
 ### Phase 3: Ecosystem (Planned)
-- ABC (Agent Behavior Contract) v0.1 release
+- Agent Behavior Contract (ABC) v1.0 release
 - MCP integration
 - Community profile contributions
 - Enterprise governance tools

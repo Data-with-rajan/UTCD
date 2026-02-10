@@ -8,7 +8,7 @@ __version__ = "1.0.0"
 
 from .loader import UTCDLoader, UTCDDescriptor
 from .validator import UTCDValidator, ValidationResult
-from .agent import UTCDAgent, Policy, Decision
+from .agent import UTCDAgent, Policy, Decision, RiskLevel, RiskEngine
 
 __all__ = [
     "UTCDLoader",
@@ -18,4 +18,6 @@ __all__ = [
     "UTCDAgent",
     "Policy",
     "Decision",
+    "RiskLevel",
+    "RiskEngine",
 ]

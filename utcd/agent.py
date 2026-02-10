@@ -373,3 +373,39 @@ class UTCDAgent:
         lines.append(f"Recommendation: {best.tool_name}")
         
         return "\n".join(lines)
+
+
+class RiskLevel(Enum):
+    """Standardized risk levels."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+
+
+class RiskEngine:
+    """
+    Modular engine for calculating tool risk levels.
+    Allows for domain-specific risk scoring (Fix #4).
+    """
+
+    DEFAULT_HIGH_TRIGGERS = {"process:spawn", "net:arbitrary", "io:filesystem-write"}
+    DEFAULT_MEDIUM_TRIGGERS = {"net:http-outbound", "io:filesystem-read"}
+
+    def __init__(self, high_triggers: Optional[set] = None, medium_triggers: Optional[set] = None):
+        self.high_triggers = high_triggers or self.DEFAULT_HIGH_TRIGGERS
+        self.medium_triggers = medium_triggers or self.DEFAULT_MEDIUM_TRIGGERS
+
+    def calculate_risk(self, tool: UTCDDescriptor) -> str:
+        """Heuristic to determine tool risk level."""
+        side_effects = set(tool.constraints.side_effects)
+        retention = tool.constraints.data_retention
+
+        # High Risk indicators
+        if any(trigger in side_effects for trigger in self.high_triggers) or retention == "persistent":
+            return "high"
+
+        # Medium Risk indicators
+        if any(trigger in side_effects for trigger in self.medium_triggers) or retention == "session":
+            return "medium"
+
+        return "low"
