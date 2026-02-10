@@ -2,75 +2,48 @@
   <img src="assets/logo.png" alt="UTCD Logo" width="120">
 </p>
 
-<h1 align="center">UTCD — Universal Tool Capability Descriptor</h1>
+<h1 align="center">The AI Agent Contract Stack</h1>
 
 <p align="center">
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.9+-blue.svg" alt="Python 3.9+"></a>
-</p>
-
-<p align="center">
-  <strong>A minimal, execution-agnostic ecosystem for AI governance.</strong><br>
-  <strong>UTCD</strong> (Capability) + <strong>ABC</strong> (Behavior) = The AI Agent Contract Stack.
+  <strong>The minimal, execution-agnostic governance framework for machine intelligence.</strong><br>
+  <strong>UTCD</strong> (Capability Layer) + <strong>ABC</strong> (Behavior Layer)
 </p>
 
 ---
 
 
 
-## 🎯 What is UTCD?
+## �️ The Mechanism
 
-UTCD is a YAML-based specification that lets tools describe themselves to AI systems. Think of it as a "nutrition label" for AI tools.
+The stack separates **Capability** (what a tool is) from **Behavior** (how it's used).
+
+### 1. UTCD (Capability Layer)
+A YAML-based "nutrition label" for tools. It lets tools describe themselves so agents can reason about them **before execution**.
 
 ```yaml
 utcd_version: "1.0"
-
 identity:
-  name: "CSV Analyzer"
-  purpose: "Analyze CSV data with statistical methods"
-
+  name: "Web Search"
 capability:
-  domain: "data-processing"
-  inputs: ["csv_file", "analysis_type"]
-  outputs: ["statistics", "charts"]
-
+  domain: "search"
 constraints:
-  side_effects: ["none"]
-  data_retention: "none"
-
-connection:
-  modes:
-    - type: "http"
-      detail: "https://api.example.com/analyze"
+  side_effects: ["net:http-outbound"]
 ```
 
-## 🎭 What is ABC?
-
-**ABC (Agent Behavior Contract)** is the governance layer that defines how an agent must behave when using tools. If UTCD is the "Nutrition Label," ABC is the **"Enforceable Behavioral Boundary."**
+### 2. ABC (Behavior Layer)
+The enforceable contract that governs agent behavior. It defines the **boundaries** for tool usage.
 
 ```yaml
 identity:
-  contract_id: "urn:abc:research-agent:v1"
-
-cognition:
-  reasoning_mode: "deliberative"
-  max_reasoning_depth: 3
-
+  contract_id: "urn:abc:researcher:v1"
 tools:
   reference_type: "utcd"
   allowed_tools: ["utcd:web-search:v1"]
-
 execution:
-  deterministic: true
-  max_tool_calls: 10
-  token_budget: 100000
-
+  max_tool_calls: 5
 governance:
-  hitl_required: true
-  memory_policy: "stateless"
+  hitl_required: true   # Human-in-the-loop
 ```
-
-Together, UTCD (Capability) and ABC (Behavior) create the **AI Agent Contract Stack**.
 
 ## 🚀 Quick Start
 
@@ -85,10 +58,14 @@ cd utcd
 pip install pyyaml
 ```
 
-### Validate a UTCD file
+### Validate Descriptors
 
 ```bash
+# Validate a Tool (UTCD)
 python -m utcd.validator examples/csv-analyzer.utcd.yaml
+
+# Validate a Contract (ABC)
+# (Validation CLI coming soon - check FUTURE_ROADMAP.md)
 ```
 
 ### Use the Agent

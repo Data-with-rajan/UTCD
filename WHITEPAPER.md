@@ -1,8 +1,6 @@
-# UTCD Whitepaper
+# The AI Agent Contract Stack (UTCD + ABC)
 
-**Universal Tool Capability Descriptor**
-
-*A Cognitive Interoperability Layer for AI-Tool Interaction*
+*A Cognitive Governance & Interoperability Layer for machine Intelligence*
 
 Version 1.0 | January 2025
 
@@ -10,9 +8,9 @@ Version 1.0 | January 2025
 
 ## Executive Summary
 
-As AI agents become primary orchestrators of software tools, a critical gap exists: **there is no standard way for tools to describe their capabilities, constraints, and trustworthiness to AI systems**.
-
-UTCD (Universal Tool Capability Descriptor) fills this gap with a minimal, execution-agnostic specification that enables AI agents to discover, evaluate, and reason about tools **before execution**.
+The **AI Agent Contract Stack** fills this gap with two co-equal layers:
+1. **UTCD (Capability Layer)**: Enables AI agents to discover, evaluate, and reason about tools **before execution**.
+2. **ABC (Behavior Layer)**: Defines an enforceable behavioral boundary that governs how agents use those tools.
 
 UTCD is not a platform, runtime, or marketplace. It is **infrastructure** — designed to be easy to publish, easy to ignore, and impossible to misuse safely.
 
