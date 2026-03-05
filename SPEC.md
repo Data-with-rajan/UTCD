@@ -135,6 +135,29 @@ performance:
   rate_limit: "100/min"
 ```
 
+### 5.4 Negotiation Profile
+
+```yaml
+negotiation:
+  economic_terms:
+    min_price: 0.001
+    currency: "ETH" | "USD" | "Credits"
+    billing_unit: "task" | "token" | "hour"
+  sla:
+    guaranteed_latency: "500ms"
+    max_error_rate: 0.01
+```
+
+### 5.5 Discovery Profile
+
+```yaml
+discovery:
+  taxonomy:
+    category: "translation"
+    sub_category: "japanese-formal"
+    tags: ["nlp", "legal", "fast"]
+```
+
 ---
 
 ## 6. Discovery

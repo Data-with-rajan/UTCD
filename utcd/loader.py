@@ -104,6 +104,30 @@ class PerformanceInfo:
 
 
 @dataclass
+class NegotiationProfile:
+    """Economic and SLA terms."""
+    min_price: float
+    currency: str
+    billing_unit: Optional[str] = None
+    guaranteed_latency: Optional[str] = None
+    max_error_rate: Optional[float] = None
+
+
+@dataclass
+class Taxonomy:
+    """Discovery taxonomy."""
+    category: str
+    sub_category: Optional[str] = None
+    tags: List[str] = field(default_factory=list)
+
+
+@dataclass
+class DiscoveryProfile:
+    """Discovery tags and taxonomy."""
+    taxonomy: Taxonomy
+
+
+@dataclass
 class UTCDDescriptor:
     """Complete UTCD descriptor with core and optional profiles."""
     
@@ -120,6 +144,8 @@ class UTCDDescriptor:
     compliance: Optional[ComplianceInfo] = None
     cost: Optional[CostProfile] = None
     performance: Optional[PerformanceInfo] = None
+    negotiation: Optional[NegotiationProfile] = None
+    discovery: Optional[DiscoveryProfile] = None
     
     # Raw data for signature verification (Fix #3)
     _raw_data: Dict[str, Any] = field(default_factory=dict, repr=False)
@@ -141,6 +167,10 @@ class UTCDDescriptor:
             profiles.add("cost")
         if self.performance:
             profiles.add("performance")
+        if self.negotiation:
+            profiles.add("negotiation")
+        if self.discovery:
+            profiles.add("discovery")
         return profiles
     
     @property
@@ -313,6 +343,32 @@ class UTCDLoader:
                 max_payload=perf_data.get("max_payload")
             )
         
+        # Parse optional negotiation profile
+        negotiation = None
+        if "negotiation" in data:
+            neg_data = data["negotiation"]
+            econ = neg_data.get("economic_terms", {})
+            sla = neg_data.get("sla", {})
+            negotiation = NegotiationProfile(
+                min_price=float(econ.get("min_price", 0.0)),
+                currency=econ.get("currency", "USD"),
+                billing_unit=econ.get("billing_unit"),
+                guaranteed_latency=sla.get("guaranteed_latency"),
+                max_error_rate=float(sla.get("max_error_rate")) if sla.get("max_error_rate") is not None else None
+            )
+
+        # Parse optional discovery profile
+        discovery = None
+        if "discovery" in data:
+            disc_data = data["discovery"]
+            tax_data = disc_data.get("taxonomy", {})
+            taxonomy = Taxonomy(
+                category=tax_data.get("category", ""),
+                sub_category=tax_data.get("sub_category"),
+                tags=tax_data.get("tags", [])
+            )
+            discovery = DiscoveryProfile(taxonomy=taxonomy)
+
         return UTCDDescriptor(
             utcd_version=data.get("utcd_version", "1.0"),
             identity=identity,
@@ -324,6 +380,8 @@ class UTCDLoader:
             compliance=compliance,
             cost=cost,
             performance=performance,
+            negotiation=negotiation,
+            discovery=discovery,
             _raw_data=data,  # Store for signature verification
             source_path=source_path
         )

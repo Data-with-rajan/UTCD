@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>The definitive, execution-agnostic governance framework for the Agentic Economy.</strong><br>
-  A dual-layer protocol for <strong>Capabilities</strong> (UTCD) and <strong>Behavior</strong> (ABC/Contracts).
+  A triple-layer protocol for <strong>Capabilities</strong> (UTCD), <strong>Behavior</strong> (ABC), and <strong>Negotiation</strong> (A2A).
 </p>
 
 <div align="center">
@@ -32,6 +32,10 @@ UTCD provides a declarative "Nutrition Label" for tools. It allows agents to rea
 Agent Behavior Contracts (ABC) define the enforceable boundaries—MISSION, RISK, and GOVERNANCE—that an agent must respect during its lifecycle.
 
 > *Stored in: [contracts/](contracts/) directory*
+
+### Layer 3: A2A (Negotiation & Discovery)
+**"What does it cost and what are the guarantees?"**
+The negotiation layer transforms UTCD from a static label into a live protocol. It defines economic terms (Price/Currency), Performance SLAs (Latency/Error Rates), and Taxonomy for agent discovery.
 
 ---
 

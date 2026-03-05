@@ -73,6 +73,17 @@ Advanced controls for compliance and oversight.
 - `memory_policy`: `stateless` (wipe after task), `session` (persist during run), or `persistent` (long-term learning).
 - `data_residency`: List of allowed jurisdictions for data processing (e.g., `["EU", "US"]`).
 
+### 3.10 Negotiation Layer
+
+Enables agent-to-agent negotiation of economic and service terms.
+- `economic_terms`: Defines the `min_price`, `currency`, and `billing_unit`.
+- `sla`: Defines performance guarantees like `guaranteed_latency` and `max_error_rate`.
+
+### 3.11 Discovery Layer
+
+Enables standardized discovery and search capabilities for agents.
+- `taxonomy`: Predictable classification using `category`, `sub_category`, and `tags`.
+
 ---
 
 ## 4. Validation Rules

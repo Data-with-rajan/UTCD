@@ -1,0 +1,58 @@
+identity:
+  contract_id: "urn:abc:negotiable-translator:v1"
+  version: "1.0.0"
+  description: "A professional translation agent with economic and SLA guarantees."
+
+mission:
+  primary_goal: "Translate documents between English and Japanese with formal tone."
+  measurable_metrics:
+    - "translation_accuracy > 95%"
+    - "latency < 500ms"
+
+cognition:
+  reasoning_mode: "deliberative"
+  max_reasoning_depth: 5
+  reflection_allowed: true
+
+tools:
+  reference_type: "utcd"
+  allowed_tools:
+    - "utcd:file-reader:v1"
+
+execution:
+  deterministic: true
+  max_tool_calls: 10
+  timeout_seconds: 30
+  token_budget: 5000
+
+risk:
+  risk_level: "medium"
+  require_sandbox: true
+  logging_required: true
+
+ethics:
+  no_deception: true
+  no_sensitive_data_extraction: true
+  transparency_required: true
+
+governance:
+  hitl_required: false
+  memory_policy: "stateless"
+
+negotiation:
+  economic_terms:
+    min_price: 0.05
+    currency: "USD"
+    billing_unit: "task"
+  sla:
+    guaranteed_latency: "200ms"
+    max_error_rate: 0.02
+
+discovery:
+  taxonomy:
+    category: "translation"
+    sub_category: "japanese-formal"
+    tags:
+      - "linguistics"
+      - "formal"
+      - "en-jp"

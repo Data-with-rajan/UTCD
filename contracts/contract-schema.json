@@ -12,7 +12,9 @@
         "execution",
         "risk",
         "ethics",
-        "governance"
+        "governance",
+        "negotiation",
+        "discovery"
     ],
     "properties": {
         "identity": {
@@ -196,6 +198,83 @@
                     "type": "array",
                     "items": {
                         "type": "string"
+                    }
+                }
+            }
+        },
+        "negotiation": {
+            "type": "object",
+            "required": [
+                "economic_terms",
+                "sla"
+            ],
+            "properties": {
+                "economic_terms": {
+                    "type": "object",
+                    "required": [
+                        "min_price",
+                        "currency"
+                    ],
+                    "properties": {
+                        "min_price": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "currency": {
+                            "type": "string",
+                            "description": "ETH, USD, Credits, etc."
+                        },
+                        "billing_unit": {
+                            "type": "string",
+                            "enum": [
+                                "task",
+                                "token",
+                                "hour",
+                                "request"
+                            ]
+                        }
+                    }
+                },
+                "sla": {
+                    "type": "object",
+                    "properties": {
+                        "guaranteed_latency": {
+                            "type": "string",
+                            "description": "e.g., 500ms, 2s"
+                        },
+                        "max_error_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        },
+        "discovery": {
+            "type": "object",
+            "required": [
+                "taxonomy"
+            ],
+            "properties": {
+                "taxonomy": {
+                    "type": "object",
+                    "required": [
+                        "category"
+                    ],
+                    "properties": {
+                        "category": {
+                            "type": "string"
+                        },
+                        "sub_category": {
+                            "type": "string"
+                        },
+                        "tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
                     }
                 }
             }
